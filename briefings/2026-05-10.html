@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 每日簡報 2026-05-10</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif; background: #0f0f13; color: #e8e8f0; min-height: 100vh; padding: 24px 16px; }
+  .container { max-width: 760px; margin: 0 auto; }
+  .back-link { display: inline-block; margin-bottom: 20px; color: #7c3aed; text-decoration: none; font-size: 0.85rem; }
+  .back-link:hover { text-decoration: underline; }
+  header { text-align: center; padding: 32px 0 24px; border-bottom: 1px solid #2a2a3a; margin-bottom: 28px; }
+  header h1 { font-size: 1.5rem; font-weight: 700; color: #a78bfa; margin-bottom: 6px; }
+  header p { font-size: 0.85rem; color: #888; }
+  .player { background: #1a1a24; border: 1px solid #2a2a3a; border-radius: 16px; padding: 24px; margin-bottom: 28px; }
+  .now-playing { font-size: 0.8rem; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .current-text { font-size: 1rem; color: #c4c4d8; min-height: 3.2em; line-height: 1.6; margin-bottom: 20px; }
+  .progress-bar { height: 4px; background: #2a2a3a; border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 2px; width: 0%; transition: width 0.3s ease; }
+  .controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 10px; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-primary { background: #7c3aed; color: #fff; }
+  .btn-primary:hover { background: #6d28d9; }
+  .btn-secondary { background: #2a2a3a; color: #c4c4d8; }
+  .btn-secondary:hover { background: #353547; }
+  .btn-danger { background: #991b1b; color: #fff; }
+  .btn-danger:hover { background: #7f1d1d; }
+  .speed-label { font-size: 0.8rem; color: #888; margin-left: 8px; }
+  select.speed-select { background: #2a2a3a; color: #c4c4d8; border: 1px solid #3a3a4a; border-radius: 8px; padding: 6px 10px; font-size: 0.85rem; cursor: pointer; }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #7c3aed; padding: 6px 0; border-bottom: 1px solid #2a2a3a; margin-bottom: 12px; }
+  .item { background: #1a1a24; border: 1px solid #2a2a3a; border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.65; color: #c4c4d8; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .item:hover { border-color: #7c3aed; background: #1e1e2e; }
+  .item.active { border-color: #a78bfa; background: #1e1a2e; color: #e8e8f0; }
+  .item-num { color: #7c3aed; font-weight: 700; margin-right: 6px; font-size: 0.8rem; }
+  .summary-box { background: #1a1a24; border: 1px solid #3a2a5a; border-radius: 12px; padding: 18px; font-size: 0.88rem; line-height: 1.7; color: #c4c4d8; margin-bottom: 32px; }
+  .summary-box h3 { font-size: 0.8rem; color: #a78bfa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back-link" href="../index.html">← 返回簡報列表</a>
+<header>
+  <h1>📡 X 每日語音簡報</h1>
+  <p>台北時間 2026-05-10 · 共 26 則重點</p>
+</header>
+<div class="player">
+  <div class="now-playing">正在播放</div>
+  <div class="current-text" id="currentText">點擊「全部播放」開始收聽，或點擊任一條目單獨播放。</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="controls">
+    <button class="btn btn-primary" id="btnPlay" onclick="playAll()">▶ 全部播放</button>
+    <button class="btn btn-secondary" id="btnPause" onclick="togglePause()" style="display:none">⏸ 暫停</button>
+    <button class="btn btn-danger" id="btnStop" onclick="stopAll()" style="display:none">■ 停止</button>
+    <span class="speed-label">速度：</span>
+    <select class="speed-select" id="speedSelect" onchange="changeSpeed()">
+      <option value="0.8">慢速 0.8×</option>
+      <option value="1.0" selected>正常 1.0×</option>
+      <option value="1.2">快速 1.2×</option>
+      <option value="1.5">更快 1.5×</option>
+    </select>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">🤖 AI 模型與工具</div>
+  <div class="item" onclick="playItem(this,0)"><span class="item-num">01</span>xAI API 正式推出語音克隆功能，支援 80 種以上聲音、28 種語言，可在 2 分鐘內建立自訂聲音，顯示語音 AI 商業化進程加速。</div>
+  <div class="item" onclick="playItem(this,1)"><span class="item-num">02</span>GPT-3 在 2020 年曾被大量科技圈人士嘲笑為「花俏的自動補全」，如今這批人已悄然轉向，說明 AI 認知落差在業界仍普遍存在。</div>
+  <div class="item" onclick="playItem(this,2)"><span class="item-num">03</span>有用戶質疑 AI 模型在重要議題上的觀點趨於一致，呈現「新佛教新自由主義」傾向，包括 Grok，引發對模型多元性的討論。</div>
+  <div class="item" onclick="playItem(this,3)"><span class="item-num">04</span>OpenAI 疑似正在開發 Codex 行動版，截圖在社群流傳，若屬實將大幅降低 AI 輔助編程的使用門檻。</div>
+  <div class="item" onclick="playItem(this,4)"><span class="item-num">05</span>Anthropic 研究員表示，Claude 在約一年內將大幅提升對自身能力的理解，用戶未來只需定義目標而非選擇模型。</div>
+  <div class="item" onclick="playItem(this,5)"><span class="item-num">06</span>Tilde Research 發現主流優化器 Muon 存在隱藏缺陷，會導致 MLP 層超過四分之一神經元永久死亡，並提出替代方案 Aurora。</div>
+  <div class="item" onclick="playItem(this,6)"><span class="item-num">07</span>Google 推出 CodeWiki，可將任意 GitHub 倉庫轉為人類可讀文件，對開發者文件工作流程影響顯著。</div>
+  <div class="item" onclick="playItem(this,7)"><span class="item-num">08</span>Anthropic 因拒絕為大規模監控提供服務而遭美國國防部排除，此案已進入司法程序，顯示 AI 倫理邊界與政府採購之間的張力正在升溫。</div>
+  <div class="item" onclick="playItem(this,8)"><span class="item-num">09</span>Gemini 3.2 和 3.5 在社群引發高度期待，Google I/O 前夕 AI 模型競爭白熱化，GPT-5.5 與 GPT-5.6 亦同步被討論。</div>
+</div>
+<div class="section">
+  <div class="section-title">🛠️ 開發工具與基礎設施</div>
+  <div class="item" onclick="playItem(this,9)"><span class="item-num">10</span>Cloudflare 推出 Email Sending 功能，每月 100 萬封郵件僅需 354 美元，遠低於 Resend 650 美元和 Postmark 1,206 美元，對 SaaS 開發者的郵件成本結構影響深遠。</div>
+  <div class="item" onclick="playItem(this,10)"><span class="item-num">11</span>Coinbase 因機房空調故障導致服務中斷長達 7 小時，暴露加密交易所在傳統基礎設施可靠性上的脆弱性。</div>
+  <div class="item" onclick="playItem(this,11)"><span class="item-num">12</span>Node.js 社群呼籲採用 Web 標準 Request/Response HTTP Server，整個 JS 生態系統已幾乎全面採用，Node.js 成為最後的例外。</div>
+  <div class="item" onclick="playItem(this,12)"><span class="item-num">13</span>Bun 正在進行 Rust 移植，但因 crate 分層與循環依賴問題面臨挑戰，顯示大型 JS 執行環境的底層重寫複雜度極高。</div>
+  <div class="item" onclick="playItem(this,13)"><span class="item-num">14</span>CSS 單行響應式字體方案廣泛傳播，說明前端開發者對簡潔解決方案的持續需求。</div>
+</div>
+<div class="section">
+  <div class="section-title">💰 加密貨幣與金融</div>
+  <div class="item" onclick="playItem(this,14)"><span class="item-num">15</span>Michael Saylor 暗示 Strategy 即將再度買入比特幣，「Back to work BTC」引發市場高度關注。</div>
+  <div class="item" onclick="playItem(this,15)"><span class="item-num">16</span>JPMorgan、Ripple、Mastercard 與 Ondo 完成首筆跨境代幣化美國國債在 XRP Ledger 上的贖回，傳統金融機構加速擁抱區塊鏈基礎設施。</div>
+  <div class="item" onclick="playItem(this,16)"><span class="item-num">17</span>美國銀行業團體在 5 月 14 日參議院加密貨幣投票前緊急遊說，顯示傳統金融對加密立法的焦慮程度升至新高。</div>
+  <div class="item" onclick="playItem(this,17)"><span class="item-num">18</span>比特幣價格約 80,643 美元，市場情緒仍在震盪中。</div>
+  <div class="item" onclick="playItem(this,18)"><span class="item-num">19</span>Magnificent 7 今年表現分化：Alphabet 上漲 28%、Amazon 上漲 18%，Tesla 下跌 4.7%、Meta 下跌 7.6%，科技股內部分化加劇。</div>
+  <div class="item" onclick="playItem(this,19)"><span class="item-num">20</span>敘利亞完成 15 年來首筆 Visa 和 Mastercard 交易，重新接入全球金融體系，地緣政治緩和帶動金融基礎設施重建。</div>
+</div>
+<div class="section">
+  <div class="section-title">🌐 地緣政治與國際</div>
+  <div class="item" onclick="playItem(this,20)"><span class="item-num">21</span>伊朗透過巴基斯坦中間人向美國傳遞停戰提案回應，中東局勢出現外交接觸跡象。</div>
+  <div class="item" onclick="playItem(this,21)"><span class="item-num">22</span>美國國務卿宣布將赴日本、南韓進行會談，為川普與習近平北京峰會預作準備，美中關係出現重要外交動向。</div>
+  <div class="item" onclick="playItem(this,22)"><span class="item-num">23</span>UAE 防空系統攔截伊朗發射的兩架無人機，中東緊張態勢持續。</div>
+  <div class="item" onclick="playItem(this,23)"><span class="item-num">24</span>北京據報已要求部委下屬國企中層幹部離京須事先報批，管控力度引發討論。</div>
+</div>
+<div class="section">
+  <div class="section-title">🏭 產業動態</div>
+  <div class="item" onclick="playItem(this,24)"><span class="item-num">25</span>印度 TCS 校園招募薪資僅約 4,000 美元每年，在當前通膨環境下引發廣泛討論，反映印度 IT 產業薪資壓力。</div>
+  <div class="item" onclick="playItem(this,25)"><span class="item-num">26</span>Daniel Craig 成為比亞迪 DENZA 豪華電動車代言人，中國電動車品牌持續強化國際形象。</div>
+</div>
+<div class="summary-box">
+  <h3>📝 今日總結</h3>
+  本日 X 動態以母親節祝福、AI 工具競爭、加密貨幣市場動向為三大主軸。AI 層面，OpenAI Codex 行動版即將推出、Cloudflare 郵件服務定價衝擊市場、Anthropic 與美國國防部的倫理爭議進入司法程序，顯示 AI 商業化與倫理邊界的張力持續升溫。加密市場方面，Saylor 再度暗示買入、JPMorgan 完成 XRP Ledger 代幣化國債交易，傳統金融與區塊鏈的融合加速。地緣政治上，伊朗透過巴基斯坦傳遞停戰回應、美中峰會前夕外交動作頻繁，值得持續關注。
+</div>
+</div>
+<script>
+const items = Array.from(document.querySelectorAll('.item'));
+const texts = items.map(el => el.innerText.replace(/^\d+\s*/, ''));
+const summaryText = document.querySelector('.summary-box').innerText.replace('📝 今日總結', '今日總結：');
+const allTexts = [...texts, summaryText];
+let currentIndex = -1, utterance = null, paused = false, playingAll = false, speed = 1.0;
+function getVoice() {
+  const voices = speechSynthesis.getVoices();
+  return voices.find(v => v.lang === 'zh-TW') || voices.find(v => v.lang.startsWith('zh')) || null;
+}
+function speak(text, index, onEnd) {
+  speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-TW'; utterance.rate = speed;
+  const voice = getVoice(); if (voice) utterance.voice = voice;
+  document.getElementById('currentText').textContent = text;
+  items.forEach(el => el.classList.remove('active'));
+  if (items[index]) { items[index].classList.add('active'); items[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  document.getElementById('progressFill').style.width = ((index + 1) / allTexts.length * 100).toFixed(1) + '%';
+  utterance.onend = onEnd || null;
+  speechSynthesis.speak(utterance);
+}
+function playAll() { playingAll = true; paused = false; document.getElementById('btnPlay').style.display = 'none'; document.getElementById('btnPause').style.display = ''; document.getElementById('btnStop').style.display = ''; playIndex(0); }
+function playIndex(i) { if (!playingAll || i >= allTexts.length) { if (i >= allTexts.length) finishPlay(); return; } currentIndex = i; speak(allTexts[i], i, () => { if (playingAll && !paused) playIndex(i + 1); }); }
+function togglePause() { if (paused) { paused = false; document.getElementById('btnPause').textContent = '⏸ 暫停'; speechSynthesis.resume(); if (currentIndex >= 0 && !speechSynthesis.speaking) playIndex(currentIndex); } else { paused = true; document.getElementById('btnPause').textContent = '▶ 繼續'; speechSynthesis.pause(); } }
+function stopAll() { playingAll = false; paused = false; speechSynthesis.cancel(); finishPlay(); document.getElementById('currentText').textContent = '已停止。'; items.forEach(el => el.classList.remove('active')); }
+function finishPlay() { playingAll = false; document.getElementById('btnPlay').style.display = ''; document.getElementById('btnPause').style.display = 'none'; document.getElementById('btnStop').style.display = 'none'; document.getElementById('btnPause').textContent = '⏸ 暫停'; document.getElementById('progressFill').style.width = '100%'; }
+function playItem(el, idx) { playingAll = false; paused = false; currentIndex = idx; document.getElementById('btnPlay').style.display = ''; document.getElementById('btnPause').style.display = 'none'; document.getElementById('btnStop').style.display = 'none'; speak(texts[idx], idx); }
+function changeSpeed() { speed = parseFloat(document.getElementById('speedSelect').value); if (utterance && speechSynthesis.speaking) { const idx = currentIndex, was = playingAll; speechSynthesis.cancel(); setTimeout(() => { if (was) { playingAll = true; playIndex(idx); } }, 100); } }
+speechSynthesis.onvoiceschanged = () => {};
+window.addEventListener('load', () => { speechSynthesis.getVoices(); });
+</script>
+</body>
+</html>
