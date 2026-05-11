@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📡 X 每日語音簡報</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+    background: #0f0f13;
+    color: #e8e8f0;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+  header {
+    text-align: center;
+    padding: 48px 0 32px;
+    border-bottom: 1px solid #2a2a3a;
+    margin-bottom: 36px;
+  }
+  header h1 { font-size: 1.8rem; font-weight: 800; color: #a78bfa; margin-bottom: 8px; }
+  header p { font-size: 0.9rem; color: #666; }
+  .list { list-style: none; }
+  .list-item {
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .list-item:hover { border-color: #7c3aed; transform: translateY(-1px); }
+  .list-item a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .date-badge {
+    background: #2a1a4a;
+    color: #a78bfa;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+  .item-title { flex: 1; font-size: 0.92rem; color: #c4c4d8; line-height: 1.4; }
+  .item-count { font-size: 0.78rem; color: #555; white-space: nowrap; }
+  .play-icon { color: #7c3aed; font-size: 1.1rem; }
+  .empty { text-align: center; color: #555; padding: 60px 0; font-size: 0.9rem; }
+  .loading { text-align: center; color: #555; padding: 60px 0; }
+  footer { text-align: center; color: #444; font-size: 0.78rem; padding: 40px 0 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📡 X 每日語音簡報</h1>
+    <p>每天早上 7 點自動更新 · 點擊任一期即可收聽</p>
+  </header>
+  <div class="loading" id="loading">載入中...</div>
+  <ul class="list" id="list"></ul>
+  <footer>由 Claude Cowork 自動生成 · 資料來源 x.deepsrt.cc</footer>
+</div>
+<script>
+fetch('manifest.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('loading').style.display = 'none';
+    const list = document.getElementById('list');
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div class="empty">尚無簡報，明天早上 7 點見！</div>';
+      return;
+    }
+    data.sort((a, b) => b.date.localeCompare(a.date));
+    data.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'list-item';
+      li.innerHTML = `<a href="${item.url}">
+        <span class="date-badge">${item.date}</span>
+        <span class="item-title">${item.title}</span>
+        <span class="item-count">${item.count} 則</span>
+        <span class="play-icon">▶</span>
+      </a>`;
+      list.appendChild(li);
+    });
+  })
+  .catch(() => {
+    document.getElementById('loading').textContent = '載入失敗，請重新整理頁面。';
+  });
+</script>
+</body>
+</html>
