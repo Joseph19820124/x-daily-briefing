@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 語音簡報 2026-05-21</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f13; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { padding: 24px 32px; border-bottom: 1px solid #1e1b2e; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  header .back-link { color: #a78bfa; text-decoration: none; font-size: 14px; }
+  header .back-link:hover { color: #c4b5fd; }
+  header .header-info { text-align: right; }
+  header h1 { font-size: 22px; font-weight: 700; color: #a78bfa; }
+  header .meta { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+  .player-bar { background: #13111f; border-bottom: 1px solid #1e1b2e; padding: 16px 32px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn { background: #7c3aed; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .btn:hover { background: #6d28d9; }
+  .btn.secondary { background: #1e1b2e; color: #a78bfa; }
+  .btn.secondary:hover { background: #2d2b4e; }
+  .speed-select { background: #1e1b2e; color: #a78bfa; border: 1px solid #2d2b4e; border-radius: 8px; padding: 7px 12px; font-size: 14px; cursor: pointer; }
+  .progress-wrap { flex: 1 1 200px; background: #1e1b2e; border-radius: 4px; height: 6px; position: relative; }
+  .progress-bar { background: #7c3aed; height: 6px; border-radius: 4px; width: 0%; transition: width 0.3s; }
+  .now-playing { font-size: 13px; color: #94a3b8; flex: 1 1 100%; margin-top: 4px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+  .category { margin-bottom: 36px; }
+  .category-title { font-size: 16px; font-weight: 700; color: #a78bfa; border-left: 3px solid #7c3aed; padding-left: 12px; margin-bottom: 14px; }
+  .item { background: #13111f; border: 1px solid #1e1b2e; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; transition: border-color 0.2s, background 0.2s; }
+  .item:hover { border-color: #7c3aed; background: #16132a; }
+  .item.active { border-color: #a78bfa; background: #1a1535; }
+  .item-num { color: #7c3aed; font-size: 13px; font-weight: 700; min-width: 28px; padding-top: 2px; }
+  .item-text { font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+  .summary-box { background: #13111f; border: 1px solid #2d2b4e; border-radius: 12px; padding: 20px 24px; margin-top: 36px; }
+  .summary-box h2 { font-size: 16px; color: #a78bfa; margin-bottom: 12px; }
+  .summary-box p { font-size: 14px; line-height: 1.8; color: #94a3b8; }
+  footer { text-align: center; padding: 24px; color: #475569; font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="back-link" href="../index.html">← 返回簡報列表</a>
+  <div class="header-info">
+    <h1>📰 X 語音簡報</h1>
+    <div class="meta">2026-05-21 &nbsp;·&nbsp; 62 條摘要（共 393 條推文）</div>
+  </div>
+</header>
+
+<div class="player-bar">
+  <button class="btn" onclick="playAll()">▶ 全部播放</button>
+  <button class="btn secondary" onclick="togglePause()">⏸ 暫停 / 繼續</button>
+  <button class="btn secondary" onclick="stopAll()">⏹ 停止</button>
+  <select class="speed-select" onchange="changeSpeed(this.value)">
+    <option value="0.8">0.8×</option>
+    <option value="1.0" selected>1.0×</option>
+    <option value="1.2">1.2×</option>
+    <option value="1.5">1.5×</option>
+  </select>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="now-playing" id="nowPlaying">尚未播放</div>
+</div>
+
+<main>
+
+<div class="category">
+  <div class="category-title">🤖 AI／模型與工具</div>
+  <div class="item" onclick="playItem(this, 0)"><span class="item-num">01</span><span class="item-text">阿里巴巴 Qwen3.7 Max 發布，Artificial Analysis Intelligence Index 得分 56.6，較前代提升 4.8 分；該模型曾自主運行 35 小時、執行 1,158 次工具呼叫並達成 10 倍加速，展示 agent 長時間自主執行能力。</span></div>
+  <div class="item" onclick="playItem(this, 1)"><span class="item-num">02</span><span class="item-text">OpenAI Codex 使用限額傳出削減 50%，引發開發者社群對成本控管與定價策略的討論。</span></div>
+  <div class="item" onclick="playItem(this, 2)"><span class="item-num">03</span><span class="item-text">OpenAI Codex 推出 Appshots 功能（macOS），雙擊 Command 鍵即可將當前視窗上下文（含未顯示文字）傳入 Codex 對話。</span></div>
+  <div class="item" onclick="playItem(this, 3)"><span class="item-num">04</span><span class="item-text">Claude Code 2.1.147 發布：新增 Workflow 工具支援確定性多 agent 編排（預設關閉，需設環境變數 CLAUDE_CODE_WORKFLOWS）、斜線指令 simplify 更名為 code-rev，共 35 項 CLI 變更。</span></div>
+  <div class="item" onclick="playItem(this, 4)"><span class="item-num">05</span><span class="item-text">Claude Code 新增 /usage 指令，可顯示各 Skill、Agent、MCP、Plugin 的 token 消耗比例。</span></div>
+  <div class="item" onclick="playItem(this, 5)"><span class="item-num">06</span><span class="item-text">Grok Build 0.1 上線 Venice 平台，完全私密；支援 256K context、64K 輸出，提供多步驟規劃、跨檔案執行、測試與自我修正迴圈。</span></div>
+  <div class="item" onclick="playItem(this, 6)"><span class="item-num">07</span><span class="item-text">Google Genie 3 將 Street View 轉化為真實世界模擬器，可從街景圖片重建任何物理環境。</span></div>
+  <div class="item" onclick="playItem(this, 7)"><span class="item-num">08</span><span class="item-text">Anthropic 預測 4 到 6 月將首次實現「營業利潤」，AI 新創長期虧損格局出現轉折訊號。</span></div>
+  <div class="item" onclick="playItem(this, 8)"><span class="item-num">09</span><span class="item-text">Cursor Composer 2.5 發布後，有分析認為 SpaceX 收購 Cursor 幾乎不可避免，估值 600 億美元。</span></div>
+  <div class="item" onclick="playItem(this, 9)"><span class="item-num">10</span><span class="item-text">Antigravity 所有付費方案的 Gemini rate limits 永久提升 3 倍，並重置所有用戶週配額。</span></div>
+  <div class="item" onclick="playItem(this, 10)"><span class="item-num">11</span><span class="item-text">v0 新增「Fix PR Conflicts」功能，agent 自動 merge base branch 並解決衝突。</span></div>
+  <div class="item" onclick="playItem(this, 11)"><span class="item-num">12</span><span class="item-text">Firecrawl 定位為「為 AI agent 打造的網路」：提供 search 找來源、scrape 轉乾淨 context、interact 自動化互動三大端點。</span></div>
+  <div class="item" onclick="playItem(this, 12)"><span class="item-num">13</span><span class="item-text">Datasette Agent alpha 發布：對話式 AI 助手查詢 SQLite 資料庫，支援插件擴展。</span></div>
+  <div class="item" onclick="playItem(this, 13)"><span class="item-num">14</span><span class="item-text">Claw Patrol 發布：AI agent 安全防火牆，攔截 HTTP、SQL、Kubernetes 及 SSH 請求，位於 agent 與生產環境之間。</span></div>
+  <div class="item" onclick="playItem(this, 14)"><span class="item-num">15</span><span class="item-text">Oz 推出多 agent 編排，支援 Claude Code、Codex、Warp Agent，一行指令即可部署。</span></div>
+  <div class="item" onclick="playItem(this, 15)"><span class="item-num">16</span><span class="item-text">DashAttention 論文：可微分自適應稀疏層次注意力，讓模型學習資訊關注的位置與程度。</span></div>
+  <div class="item" onclick="playItem(this, 16)"><span class="item-num">17</span><span class="item-text">LongMINT 評估框架：測試長期 agent 系統中多目標干擾下的記憶能力。</span></div>
+  <div class="item" onclick="playItem(this, 17)"><span class="item-num">18</span><span class="item-text">ModelClock 測試 14 個前沿模型知識截止日：Claude Opus 4.7 與 DeepSeek V4 Pro 最新，知識截至 2025 年 7 月。</span></div>
+  <div class="item" onclick="playItem(this, 18)"><span class="item-num">19</span><span class="item-text">Google Cloud AI 工程師展示 24 分鐘內用 Claude 從構想到部署完整應用。</span></div>
+  <div class="item" onclick="playItem(this, 19)"><span class="item-num">20</span><span class="item-text">LangChain 新 streaming 協議：超越 token delta，支援工具、狀態、子 agent、媒體、中斷與重連。</span></div>
+  <div class="item" onclick="playItem(this, 20)"><span class="item-num">21</span><span class="item-text">OpenAI 數學突破解釋：GPT 解決 Erdős 1946 年平面單位距離猜想，但尚未見 LLM 主動提出新問題。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">💰 財經與市場</div>
+  <div class="item" onclick="playItem(this, 21)"><span class="item-num">22</span><span class="item-text">SpaceX pre-IPO 逼近每股 900 美元，Musk 持有約 42% 股權，即將成為人類史上首位兆萬富翁。</span></div>
+  <div class="item" onclick="playItem(this, 22)"><span class="item-num">23</span><span class="item-text">川普簽署行政命令，要求美國政府更新法規以整合加密貨幣進入傳統金融與支付系統。</span></div>
+  <div class="item" onclick="playItem(this, 23)"><span class="item-num">24</span><span class="item-text">前三星晶片主管警告：中國大量投資記憶體市場，可能在一年內壓垮 DDR5 414% 漲幅；高盛稱之為「RAMageddon」。</span></div>
+  <div class="item" onclick="playItem(this, 24)"><span class="item-num">25</span><span class="item-text">turbopuffer 跨越 1 億美元年化營收，距達到 100 萬僅 19 個月，融資不到 100 萬美元。</span></div>
+  <div class="item" onclick="playItem(this, 25)"><span class="item-num">26</span><span class="item-text">Vapi 完成 5000 萬美元 B 輪，累計處理 10 億通電話，企業 ARR 成長 10 倍。</span></div>
+  <div class="item" onclick="playItem(this, 26)"><span class="item-num">27</span><span class="item-text">華盛頓大學近十年前投入約 5000 萬美元於 SpaceX，如今即將獲得巨額回報。</span></div>
+  <div class="item" onclick="playItem(this, 27)"><span class="item-num">28</span><span class="item-text">荷姆茲海峽若封鎖至 8 月，經濟衰退風險接近 2008 年大衰退規模。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">🌐 地緣政治與政策</div>
+  <div class="item" onclick="playItem(this, 28)"><span class="item-num">29</span><span class="item-text">維吉尼亞州錯失廢除反工人「工作權」法的歷史機會，州長否決立法。</span></div>
+  <div class="item" onclick="playItem(this, 29)"><span class="item-num">30</span><span class="item-text">澳洲詳細能源計畫遭資深工黨官員洩露。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">🏭 產業與企業</div>
+  <div class="item" onclick="playItem(this, 30)"><span class="item-num">31</span><span class="item-text">Meta 被前員工形容為「最毒公司」：中國員工稱之為「魷魚遊戲」，其他人稱「飢餓遊戲」或「蒼蠅王」。</span></div>
+  <div class="item" onclick="playItem(this, 31)"><span class="item-num">32</span><span class="item-text">某公司宣布裁員 22%，CEO 稱「業務史上最強」但仍需精簡，引發科技業「同一劇本」批評。</span></div>
+  <div class="item" onclick="playItem(this, 32)"><span class="item-num">33</span><span class="item-text">Google 高層承認產品路線圖最長僅 120 天，已數月未制定一年以上計畫，被批評為短視。</span></div>
+  <div class="item" onclick="playItem(this, 33)"><span class="item-num">34</span><span class="item-text">Google 發布 2026 年 5 月核心搜尋更新。</span></div>
+  <div class="item" onclick="playItem(this, 34)"><span class="item-num">35</span><span class="item-text">Google AI Studio 即將推出 Android 與 iOS 原生 App，重建行動端 vibe coding 體驗。</span></div>
+  <div class="item" onclick="playItem(this, 35)"><span class="item-num">36</span><span class="item-text">Chrome 搜尋升級：AI Mode 可利用開啟的分頁與圖片作為搜尋輸入。</span></div>
+  <div class="item" onclick="playItem(this, 36)"><span class="item-num">37</span><span class="item-text">Ray-Ban Meta AI 眼鏡 5 月 21 日正式在日本發售。</span></div>
+  <div class="item" onclick="playItem(this, 37)"><span class="item-num">38</span><span class="item-text">Gemini 驅動 AI 眼鏡確認 2026 年秋季發售。</span></div>
+  <div class="item" onclick="playItem(this, 38)"><span class="item-num">39</span><span class="item-text">Cursor 公開內部最常用技能：thermo-nuclear-code-quality-review（熱核級程式碼品質審查）。</span></div>
+  <div class="item" onclick="playItem(this, 39)"><span class="item-num">40</span><span class="item-text">AI 正在殺死獨立網站：All About Berlin 流量因 Google AI 摘要大幅下降，而訓練資料正是來自其內容。</span></div>
+  <div class="item" onclick="playItem(this, 40)"><span class="item-num">41</span><span class="item-text">Flipper One 模組化 Linux Cyberdeck 發布，定位為網路安全專業工具。</span></div>
+  <div class="item" onclick="playItem(this, 41)"><span class="item-num">42</span><span class="item-text">Proxmox 9.2 發布：新增動態負載平衡器、WireGuard SDN、細粒度 BGP 與 EVPN 過濾。</span></div>
+  <div class="item" onclick="playItem(this, 42)"><span class="item-num">43</span><span class="item-text">Amp Labs 推出新模式：頂尖小團隊嵌入各產業最前沿公司協作。</span></div>
+  <div class="item" onclick="playItem(this, 43)"><span class="item-num">44</span><span class="item-text">Modal 持續快速成長，積極招聘 AI 基礎設施人才。</span></div>
+  <div class="item" onclick="playItem(this, 44)"><span class="item-num">45</span><span class="item-text">Replit 推出 Stripe 整合：開發者透過 app 變現可賺取 Replit credits。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">🛠️ 開發者工具與開源</div>
+  <div class="item" onclick="playItem(this, 45)"><span class="item-num">46</span><span class="item-text">Hermes Agent 韓文實踐指南發布。</span></div>
+  <div class="item" onclick="playItem(this, 46)"><span class="item-num">47</span><span class="item-text">SurrealDB：以 Rust 建構，結合關聯式、文件、圖形、時序模型的單一資料庫。</span></div>
+  <div class="item" onclick="playItem(this, 47)"><span class="item-num">48</span><span class="item-text">Ursula 開源發布：基於 ElectricSQL Durable Streams Protocol 的 HTTP event streams server，Apache 2.0 授權、quorum 複製、p99 延遲低於 50 毫秒。</span></div>
+  <div class="item" onclick="playItem(this, 48)"><span class="item-num">49</span><span class="item-text">shadcn registry 改進：include 可拆分大型 registry、新增 validate 指令、支援 loaders。</span></div>
+  <div class="item" onclick="playItem(this, 49)"><span class="item-num">50</span><span class="item-text">Kotlin 後端開發重點：Exposed 1.0、AI 相似搜尋向量型別、實驗性 gRPC 支援。</span></div>
+  <div class="item" onclick="playItem(this, 50)"><span class="item-num">51</span><span class="item-text">MLX 擴展至 CUDA 與 Vulkan 支援。</span></div>
+  <div class="item" onclick="playItem(this, 51)"><span class="item-num">52</span><span class="item-text">Terraform 專案結構視覺化教學分享。</span></div>
+  <div class="item" onclick="playItem(this, 52)"><span class="item-num">53</span><span class="item-text">CRI、CNI、CSI 三大 Kubernetes 核心介面解說。</span></div>
+  <div class="item" onclick="playItem(this, 53)"><span class="item-num">54</span><span class="item-text">S3 內部本質為大規模分散式 Key-Value Store，效能取決於 object key 設計與存取分佈策略。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">🔬 科學與研究</div>
+  <div class="item" onclick="playItem(this, 54)"><span class="item-num">55</span><span class="item-text">OpenAI 模型解決 Erdős 1946 年猜想引發討論：數學家指出 AI 找反例不等於解決問題，但人類在基礎研究中的角色將深刻改變。</span></div>
+  <div class="item" onclick="playItem(this, 55)"><span class="item-num">56</span><span class="item-text">Nature 論文：全身 BioAI 基礎模型發布。</span></div>
+  <div class="item" onclick="playItem(this, 56)"><span class="item-num">57</span><span class="item-text">時間為何只有一維？新論文以多維成本幾何學展示時間如何作為辨識成本下降的唯一方向湧現。</span></div>
+</div>
+
+<div class="category">
+  <div class="category-title">📱 消費科技與生活</div>
+  <div class="item" onclick="playItem(this, 57)"><span class="item-num">58</span><span class="item-text">Musk 表示 SpaceX IPO 是為了「資助讓生命成為多行星物種」。</span></div>
+  <div class="item" onclick="playItem(this, 58)"><span class="item-num">59</span><span class="item-text">AI 撲克錦標賽：各 AI 公司派代表參賽，xAI 共同創辦人奪冠、Cursor 與 Twelve Labs 分列二三。</span></div>
+  <div class="item" onclick="playItem(this, 59)"><span class="item-num">60</span><span class="item-text">棋類與圍棋 AI 啟示：AI 對弈接近數學完美，但充滿人類覺得不可理解的長段落。</span></div>
+  <div class="item" onclick="playItem(this, 60)"><span class="item-num">61</span><span class="item-text">AMD Ryzen AI Halo 引發期待：本地 AI 硬體讓開發者可在自己機器上建構而非送往雲端。</span></div>
+  <div class="item" onclick="playItem(this, 61)"><span class="item-num">62</span><span class="item-text">minisim.app：免費開源 iOS 與 Android 模擬器，秒開即用。</span></div>
+</div>
+
+<div class="summary-box">
+  <h2>📝 今日總結</h2>
+  <p>本輪以 AI 開發工具密集更新為主軸：OpenAI Codex（Appshots、限額調整）、Claude Code 2.1.147（Workflow 多 agent 編排）、Grok Build 0.1、v0 自動解衝突等同步推進，agent 工具鏈正從「能用」快速邁向「日常整合」。模型層面，阿里 Qwen3.7 Max 展示 35 小時自主運行能力，Anthropic 預告首次營業利潤，顯示 AI 新創商業化拐點浮現。財經面，SpaceX IPO 逼近、川普加密行政命令、記憶體市場「RAMageddon」警告交織，市場在科技樂觀與地緣風險間持續擺盪。產業面，Google 承認僅有 120 天路線圖引發短視批評，而 AI 對獨立網站流量的侵蝕問題持續發酵，內容創作者生態面臨結構性挑戰。</p>
+</div>
+
+</main>
+
+<footer>X 語音簡報 · 2026-05-21 · 共 62 條摘要</footer>
+
+<script>
+const items = [
+  "阿里巴巴 Qwen3.7 Max 發布，Artificial Analysis Intelligence Index 得分 56.6，較前代提升 4.8 分；該模型曾自主運行 35 小時、執行 1,158 次工具呼叫並達成 10 倍加速，展示 agent 長時間自主執行能力。",
+  "OpenAI Codex 使用限額傳出削減 50%，引發開發者社群對成本控管與定價策略的討論。",
+  "OpenAI Codex 推出 Appshots 功能（macOS），雙擊 Command 鍵即可將當前視窗上下文（含未顯示文字）傳入 Codex 對話。",
+  "Claude Code 2.1.147 發布：新增 Workflow 工具支援確定性多 agent 編排（預設關閉，需設環境變數 CLAUDE_CODE_WORKFLOWS）、斜線指令 simplify 更名為 code-rev，共 35 項 CLI 變更。",
+  "Claude Code 新增 usage 指令，可顯示各 Skill、Agent、MCP、Plugin 的 token 消耗比例。",
+  "Grok Build 0.1 上線 Venice 平台，完全私密；支援 256K context、64K 輸出，提供多步驟規劃、跨檔案執行、測試與自我修正迴圈。",
+  "Google Genie 3 將 Street View 轉化為真實世界模擬器，可從街景圖片重建任何物理環境。",
+  "Anthropic 預測 4 到 6 月將首次實現「營業利潤」，AI 新創長期虧損格局出現轉折訊號。",
+  "Cursor Composer 2.5 發布後，有分析認為 SpaceX 收購 Cursor 幾乎不可避免，估值 600 億美元。",
+  "Antigravity 所有付費方案的 Gemini rate limits 永久提升 3 倍，並重置所有用戶週配額。",
+  "v0 新增 Fix PR Conflicts 功能，agent 自動 merge base branch 並解決衝突。",
+  "Firecrawl 定位為「為 AI agent 打造的網路」：提供 search 找來源、scrape 轉乾淨 context、interact 自動化互動三大端點。",
+  "Datasette Agent alpha 發布：對話式 AI 助手查詢 SQLite 資料庫，支援插件擴展。",
+  "Claw Patrol 發布：AI agent 安全防火牆，攔截 HTTP、SQL、Kubernetes 及 SSH 請求，位於 agent 與生產環境之間。",
+  "Oz 推出多 agent 編排，支援 Claude Code、Codex、Warp Agent，一行指令即可部署。",
+  "DashAttention 論文：可微分自適應稀疏層次注意力，讓模型學習資訊關注的位置與程度。",
+  "LongMINT 評估框架：測試長期 agent 系統中多目標干擾下的記憶能力。",
+  "ModelClock 測試 14 個前沿模型知識截止日：Claude Opus 4.7 與 DeepSeek V4 Pro 最新，知識截至 2025 年 7 月。",
+  "Google Cloud AI 工程師展示 24 分鐘內用 Claude 從構想到部署完整應用。",
+  "LangChain 新 streaming 協議：超越 token delta，支援工具、狀態、子 agent、媒體、中斷與重連。",
+  "OpenAI 數學突破解釋：GPT 解決 Erdős 1946 年平面單位距離猜想，但尚未見 LLM 主動提出新問題。",
+  "SpaceX pre-IPO 逼近每股 900 美元，Musk 持有約 42% 股權，即將成為人類史上首位兆萬富翁。",
+  "川普簽署行政命令，要求美國政府更新法規以整合加密貨幣進入傳統金融與支付系統。",
+  "前三星晶片主管警告：中國大量投資記憶體市場，可能在一年內壓垮 DDR5 414% 漲幅；高盛稱之為「RAMageddon」。",
+  "turbopuffer 跨越 1 億美元年化營收，距達到 100 萬僅 19 個月，融資不到 100 萬美元。",
+  "Vapi 完成 5000 萬美元 B 輪，累計處理 10 億通電話，企業 ARR 成長 10 倍。",
+  "華盛頓大學近十年前投入約 5000 萬美元於 SpaceX，如今即將獲得巨額回報。",
+  "荷姆茲海峽若封鎖至 8 月，經濟衰退風險接近 2008 年大衰退規模。",
+  "維吉尼亞州錯失廢除反工人「工作權」法的歷史機會，州長否決立法。",
+  "澳洲詳細能源計畫遭資深工黨官員洩露。",
+  "Meta 被前員工形容為「最毒公司」：中國員工稱之為「魷魚遊戲」，其他人稱「飢餓遊戲」或「蒼蠅王」。",
+  "某公司宣布裁員 22%，CEO 稱「業務史上最強」但仍需精簡，引發科技業「同一劇本」批評。",
+  "Google 高層承認產品路線圖最長僅 120 天，已數月未制定一年以上計畫，被批評為短視。",
+  "Google 發布 2026 年 5 月核心搜尋更新。",
+  "Google AI Studio 即將推出 Android 與 iOS 原生 App，重建行動端 vibe coding 體驗。",
+  "Chrome 搜尋升級：AI Mode 可利用開啟的分頁與圖片作為搜尋輸入。",
+  "Ray-Ban Meta AI 眼鏡 5 月 21 日正式在日本發售。",
+  "Gemini 驅動 AI 眼鏡確認 2026 年秋季發售。",
+  "Cursor 公開內部最常用技能：thermo-nuclear-code-quality-review（熱核級程式碼品質審查）。",
+  "AI 正在殺死獨立網站：All About Berlin 流量因 Google AI 摘要大幅下降，而訓練資料正是來自其內容。",
+  "Flipper One 模組化 Linux Cyberdeck 發布，定位為網路安全專業工具。",
+  "Proxmox 9.2 發布：新增動態負載平衡器、WireGuard SDN、細粒度 BGP 與 EVPN 過濾。",
+  "Amp Labs 推出新模式：頂尖小團隊嵌入各產業最前沿公司協作。",
+  "Modal 持續快速成長，積極招聘 AI 基礎設施人才。",
+  "Replit 推出 Stripe 整合：開發者透過 app 變現可賺取 Replit credits。",
+  "Hermes Agent 韓文實踐指南發布。",
+  "SurrealDB：以 Rust 建構，結合關聯式、文件、圖形、時序模型的單一資料庫。",
+  "Ursula 開源發布：基於 ElectricSQL Durable Streams Protocol 的 HTTP event streams server，Apache 2.0 授權、quorum 複製、p99 延遲低於 50 毫秒。",
+  "shadcn registry 改進：include 可拆分大型 registry、新增 validate 指令、支援 loaders。",
+  "Kotlin 後端開發重點：Exposed 1.0、AI 相似搜尋向量型別、實驗性 gRPC 支援。",
+  "MLX 擴展至 CUDA 與 Vulkan 支援。",
+  "Terraform 專案結構視覺化教學分享。",
+  "CRI、CNI、CSI 三大 Kubernetes 核心介面解說。",
+  "S3 內部本質為大規模分散式 Key-Value Store，效能取決於 object key 設計與存取分佈策略。",
+  "OpenAI 模型解決 Erdős 1946 年猜想引發討論：數學家指出 AI 找反例不等於解決問題，但人類在基礎研究中的角色將深刻改變。",
+  "Nature 論文：全身 BioAI 基礎模型發布。",
+  "時間為何只有一維？新論文以多維成本幾何學展示時間如何作為辨識成本下降的唯一方向湧現。",
+  "Musk 表示 SpaceX IPO 是為了「資助讓生命成為多行星物種」。",
+  "AI 撲克錦標賽：各 AI 公司派代表參賽，xAI 共同創辦人奪冠、Cursor 與 Twelve Labs 分列二三。",
+  "棋類與圍棋 AI 啟示：AI 對弈接近數學完美，但充滿人類覺得不可理解的長段落。",
+  "AMD Ryzen AI Halo 引發期待：本地 AI 硬體讓開發者可在自己機器上建構而非送往雲端。",
+  "minisim.app：免費開源 iOS 與 Android 模擬器，秒開即用。"
+];
+
+let currentIndex = -1;
+let currentUtterance = null;
+let isPaused = false;
+let currentSpeed = 1.0;
+let voices = [];
+
+function loadVoices() { voices = speechSynthesis.getVoices(); }
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function getVoice() {
+  const zhTW = voices.find(v => v.lang === 'zh-TW');
+  if (zhTW) return zhTW;
+  const zhHK = voices.find(v => v.lang === 'zh-HK');
+  if (zhHK) return zhHK;
+  return voices.find(v => v.lang.startsWith('zh')) || null;
+}
+
+function updateProgress(index) {
+  const pct = items.length > 1 ? (index / (items.length - 1)) * 100 : 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('nowPlaying').textContent = '第 ' + (index + 1) + ' 條：' + items[index].substring(0, 40) + '…';
+}
+
+function setActive(index) {
+  document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+  const all = document.querySelectorAll('.item');
+  if (all[index]) { all[index].classList.add('active'); all[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+
+function speak(text, index, onEnd) {
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-TW';
+  utter.rate = currentSpeed;
+  const v = getVoice();
+  if (v) utter.voice = v;
+  utter.onend = onEnd || null;
+  currentUtterance = utter;
+  isPaused = false;
+  setActive(index);
+  updateProgress(index);
+  speechSynthesis.speak(utter);
+}
+
+function playIndex(i) {
+  if (i >= items.length) {
+    currentIndex = -1;
+    document.getElementById('nowPlaying').textContent = '播放完畢';
+    document.getElementById('progressBar').style.width = '100%';
+    document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+    return;
+  }
+  currentIndex = i;
+  speak(items[i], i, () => playIndex(i + 1));
+}
+
+function playAll() { playIndex(0); }
+
+function togglePause() {
+  if (speechSynthesis.speaking && !isPaused) { speechSynthesis.pause(); isPaused = true; }
+  else if (isPaused) { speechSynthesis.resume(); isPaused = false; }
+}
+
+function stopAll() {
+  speechSynthesis.cancel();
+  currentIndex = -1; isPaused = false;
+  document.getElementById('nowPlaying').textContent = '已停止';
+  document.getElementById('progressBar').style.width = '0%';
+  document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+}
+
+function playItem(el, idx) { currentIndex = idx; speak(items[idx], idx, () => playIndex(idx + 1)); }
+
+function changeSpeed(val) {
+  currentSpeed = parseFloat(val);
+  if (speechSynthesis.speaking && currentIndex >= 0) { playIndex(currentIndex); }
+}
+</script>
+</body>
+</html>
