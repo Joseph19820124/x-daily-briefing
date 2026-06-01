@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 語音簡報 2026-06-01</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f13; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { background: #1a1a2e; border-bottom: 2px solid #7c3aed; padding: 20px 24px; }
+  header a { color: #a78bfa; text-decoration: none; font-size: 14px; }
+  header a:hover { color: #c4b5fd; }
+  header h1 { font-size: 22px; font-weight: 700; color: #f1f5f9; margin: 8px 0 4px; }
+  header p { font-size: 14px; color: #94a3b8; }
+  .player { background: #1e1b2e; border: 1px solid #4c1d95; border-radius: 12px; margin: 24px; padding: 20px; }
+  .player-title { font-size: 14px; color: #a78bfa; font-weight: 600; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .player-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  button { background: #7c3aed; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+  button:hover { background: #6d28d9; }
+  button.secondary { background: #374151; }
+  button.secondary:hover { background: #4b5563; }
+  .speed-label { font-size: 13px; color: #94a3b8; margin-left: 4px; }
+  select { background: #374151; color: #e2e8f0; border: 1px solid #4b5563; border-radius: 8px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .progress-bar { width: 100%; height: 6px; background: #374151; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); width: 0%; transition: width 0.3s; border-radius: 3px; }
+  .current-text { font-size: 13px; color: #a78bfa; margin-top: 10px; min-height: 18px; font-style: italic; }
+  .content { padding: 0 24px 32px; }
+  .category { margin-bottom: 28px; }
+  .category-title { font-size: 16px; font-weight: 700; color: #a78bfa; margin-bottom: 12px; padding: 8px 12px; background: #1a1a2e; border-left: 3px solid #7c3aed; border-radius: 4px; }
+  .item { background: #16213e; border: 1px solid #2d2b55; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; display: flex; gap: 12px; align-items: flex-start; }
+  .item:hover { border-color: #7c3aed; background: #1e1b4b; }
+  .item.active { border-color: #a78bfa; background: #1e1b4b; box-shadow: 0 0 0 2px rgba(167,139,250,0.2); }
+  .item-num { background: #7c3aed; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .item-text { font-size: 15px; line-height: 1.6; color: #e2e8f0; flex: 1; }
+  .summary-box { background: #1a1a2e; border: 1px solid #4c1d95; border-radius: 12px; padding: 20px; margin: 0 24px 32px; }
+  .summary-box h3 { color: #a78bfa; font-size: 15px; margin-bottom: 10px; }
+  .summary-box p { color: #cbd5e1; font-size: 14px; line-height: 1.7; }
+</style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← 返回簡報列表</a>
+  <h1>📰 X 語音簡報</h1>
+  <p>2026-06-01 &nbsp;·&nbsp; 50 條精選摘要</p>
+</header>
+
+<div class="player">
+  <div class="player-title">🔊 語音播放器</div>
+  <div class="player-controls">
+    <button onclick="playAll()">▶ 全部播放</button>
+    <button class="secondary" onclick="togglePause()">⏸ 暫停</button>
+    <button class="secondary" onclick="stopAll()">⏹ 停止</button>
+    <span class="speed-label">速度：</span>
+    <select onchange="changeSpeed(this.value)">
+      <option value="0.8">0.8×</option>
+      <option value="1.0" selected>1.0×</option>
+      <option value="1.2">1.2×</option>
+      <option value="1.5">1.5×</option>
+    </select>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="current-text" id="currentText">點擊條目或按「全部播放」開始</div>
+</div>
+
+<div class="content">
+
+  <div class="category">
+    <div class="category-title">🤖 AI 模型與產業</div>
+    <div class="item" onclick="playItem(this, 0)">
+      <span class="item-num">1</span>
+      <span class="item-text">SuperAI Singapore 峰會將於 6 月 10 至 11 日舉行，持續在社群媒體熱烈推廣，獲得超過 4600 個讚。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 1)">
+      <span class="item-num">2</span>
+      <span class="item-text">本期 AI 及科技硬核新聞仍然極少，週末模式持續。NVIDIA Computex 主題演講相關新聞尚未大量出現在時間線上，預計接下來數小時內將大量湧入。</span>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">🌐 地緣政治與國際</div>
+    <div class="item" onclick="playItem(this, 2)">
+      <span class="item-num">3</span>
+      <span class="item-text">巴黎暴動持續為本期最大地緣政治話題，多條相關推文獲得 37K 及 17K 讚。波蘭球迷在慶祝活動後自行清理垃圾的影片被廣泛轉發形成對比，獲得 34K 讚。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 3)">
+      <span class="item-num">4</span>
+      <span class="item-text">英國鐵路回歸公有化：Southern、Thameslink、Great Northern、Gatwick Express 正式不再為私人利潤運營，相關討論獲得 8600 讚及 2300 則回覆。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 4)">
+      <span class="item-num">5</span>
+      <span class="item-text">日圓持續貶值，相關討論熱度持高，獲得 8100 讚及 1200 則回覆，引發廣泛關注。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 5)">
+      <span class="item-num">6</span>
+      <span class="item-text">新加坡亞洲安全會議（香格里拉對話）持續進行中，各國安全政策議題持續引發討論。</span>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">📱 社群與文化</div>
+    <div class="item" onclick="playItem(this, 6)">
+      <span class="item-num">7</span>
+      <span class="item-text">一對 75 歲 DDR（Dance Dance Revolution）玩家夫婦的聚會影片持續攀升，獲得 71K 讚，成為本期互動最高的推文。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 7)">
+      <span class="item-num">8</span>
+      <span class="item-text">北方狐狸伸舌頭的可愛影片廣受歡迎，獲得 46K 讚，成為本期動物類內容最高互動。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 8)">
+      <span class="item-num">9</span>
+      <span class="item-text">PSG 球迷圍著奶奶一起唱歌的溫馨畫面感動眾多網友，獲得 26K 讚，展現了體育賽事中的人情味。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 9)">
+      <span class="item-num">10</span>
+      <span class="item-text">走失的布偶成功尋獲並歸還主人，溫馨故事在社群媒體上廣傳，獲得 9300 讚。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 10)">
+      <span class="item-num">11</span>
+      <span class="item-text">「如果免費邀請你去中國旅遊，你會接受嗎？」此問題引發熱烈討論，獲得 9300 讚及高達 11K 則回覆，顯示話題具高度爭議性。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 11)">
+      <span class="item-num">12</span>
+      <span class="item-text">Jack Ma 早年求職遭 KFC 拒絕的故事持續在社群媒體廣泛流傳，獲得 23K 讚，再次引發關於堅持與逆境的討論。</span>
+    </div>
+    <div class="item" onclick="playItem(this, 12)">
+      <span class="item-num">13</span>
+      <span class="item-text">Steven Gerrard 稱讚 Arsenal 球隊表現，表示：「我看不到太多自我，只看到年輕飢餓的教練。」此評論獲得 12K 讚，引發足球迷熱議。</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="summary-box">
+  <h3>📝 今日總結</h3>
+  <p>本期持續週末模式，AI 新聞幾乎為零。巴黎暴動和波蘭球迷對比（「Be Like Poland」34K 讚）、英國鐵路回歸公有（8600 讚 + 2300 回覆）為地緣政治焦點。75 歲 DDR 夫婦（71K 讚）和 PSG 球迷圍著奶奶唱歌（26K 讚）展現了社群媒體上暖心內容的持久生命力。NVIDIA Computex 相關新聞預計在接下來幾小時大量湧入，敬請期待。</p>
+</div>
+
+<script>
+const items = [
+  "SuperAI Singapore 峰會將於 6 月 10 至 11 日舉行，持續在社群媒體熱烈推廣，獲得超過 4600 個讚。",
+  "本期 AI 及科技硬核新聞仍然極少，週末模式持續。NVIDIA Computex 主題演講相關新聞尚未大量出現在時間線上，預計接下來數小時內將大量湧入。",
+  "巴黎暴動持續為本期最大地緣政治話題，多條相關推文獲得 37K 及 17K 讚。波蘭球迷在慶祝活動後自行清理垃圾的影片被廣泛轉發形成對比，獲得 34K 讚。",
+  "英國鐵路回歸公有化：Southern、Thameslink、Great Northern、Gatwick Express 正式不再為私人利潤運營，相關討論獲得 8600 讚及 2300 則回覆。",
+  "日圓持續貶值，相關討論熱度持高，獲得 8100 讚及 1200 則回覆，引發廣泛關注。",
+  "新加坡亞洲安全會議，香格里拉對話持續進行中，各國安全政策議題持續引發討論。",
+  "一對 75 歲 DDR 玩家夫婦的聚會影片持續攀升，獲得 71K 讚，成為本期互動最高的推文。",
+  "北方狐狸伸舌頭的可愛影片廣受歡迎，獲得 46K 讚，成為本期動物類內容最高互動。",
+  "PSG 球迷圍著奶奶一起唱歌的溫馨畫面感動眾多網友，獲得 26K 讚，展現了體育賽事中的人情味。",
+  "走失的布偶成功尋獲並歸還主人，溫馨故事在社群媒體上廣傳，獲得 9300 讚。",
+  "如果免費邀請你去中國旅遊，你會接受嗎？此問題引發熱烈討論，獲得 9300 讚及高達 11K 則回覆，顯示話題具高度爭議性。",
+  "Jack Ma 早年求職遭 KFC 拒絕的故事持續在社群媒體廣泛流傳，獲得 23K 讚，再次引發關於堅持與逆境的討論。",
+  "Steven Gerrard 稱讚 Arsenal 球隊表現，表示：我看不到太多自我，只看到年輕飢餓的教練。此評論獲得 12K 讚，引發足球迷熱議。"
+];
+
+let currentIndex = -1;
+let isPaused = false;
+let currentUtterance = null;
+let currentSpeed = 1.0;
+let voice = null;
+
+function getVoice() {
+  const voices = speechSynthesis.getVoices();
+  return voices.find(v => v.lang === 'zh-TW') ||
+         voices.find(v => v.lang.startsWith('zh')) ||
+         voices[0];
+}
+
+function speak(text, index, onEnd) {
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-TW';
+  utter.rate = currentSpeed;
+  const v = getVoice();
+  if (v) utter.voice = v;
+  currentUtterance = utter;
+  currentIndex = index;
+  document.getElementById('currentText').textContent = text;
+  document.getElementById('progressFill').style.width = ((index + 1) / items.length * 100) + '%';
+  document.querySelectorAll('.item').forEach((el, i) => el.classList.toggle('active', i === index));
+  utter.onend = () => { if (onEnd) onEnd(); };
+  speechSynthesis.speak(utter);
+}
+
+function playAll() {
+  isPaused = false;
+  playIndex(0);
+}
+
+function playIndex(i) {
+  if (i >= items.length) {
+    document.getElementById('currentText').textContent = '✅ 播放完畢';
+    document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+    return;
+  }
+  speak(items[i], i, () => { if (!isPaused) playIndex(i + 1); });
+}
+
+function togglePause() {
+  if (speechSynthesis.speaking && !speechSynthesis.paused) {
+    speechSynthesis.pause();
+    isPaused = true;
+    document.getElementById('currentText').textContent = '⏸ 已暫停';
+  } else if (speechSynthesis.paused) {
+    speechSynthesis.resume();
+    isPaused = false;
+  }
+}
+
+function stopAll() {
+  isPaused = true;
+  speechSynthesis.cancel();
+  currentIndex = -1;
+  document.getElementById('currentText').textContent = '⏹ 已停止';
+  document.getElementById('progressFill').style.width = '0%';
+  document.querySelectorAll('.item').forEach(el => el.classList.remove('active'));
+}
+
+function playItem(el, idx) {
+  isPaused = false;
+  speak(items[idx], idx, () => { if (!isPaused) playIndex(idx + 1); });
+}
+
+function changeSpeed(val) {
+  currentSpeed = parseFloat(val);
+  if (speechSynthesis.speaking) {
+    const idx = currentIndex;
+    speechSynthesis.cancel();
+    setTimeout(() => playIndex(idx), 100);
+  }
+}
+
+speechSynthesis.onvoiceschanged = () => { voice = getVoice(); };
+</script>
+</body>
+</html>
