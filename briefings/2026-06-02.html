@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 語音簡報 2026-06-02</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f13; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-bottom: 1px solid #2d2d4e; padding: 1.5rem 2rem; }
+  header a { color: #a78bfa; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 0.75rem; }
+  header a:hover { color: #c4b5fd; }
+  header h1 { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; }
+  header p { color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem; }
+  .player { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 12px; margin: 1.5rem 2rem; padding: 1.25rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+  button { background: #7c3aed; color: #fff; border: none; border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.9rem; cursor: pointer; transition: background 0.2s; }
+  button:hover { background: #6d28d9; }
+  button.secondary { background: #2d2d4e; }
+  button.secondary:hover { background: #3d3d5e; }
+  select { background: #2d2d4e; color: #e2e8f0; border: 1px solid #4a4a6e; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.9rem; cursor: pointer; }
+  .progress-wrap { height: 6px; background: #2d2d4e; border-radius: 3px; overflow: hidden; }
+  .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 3px; transition: width 0.3s; }
+  .now-playing { font-size: 0.85rem; color: #94a3b8; margin-top: 0.6rem; min-height: 1.2em; }
+  main { padding: 0 2rem 3rem; }
+  .section { margin-bottom: 2rem; }
+  .section-title { font-size: 1.05rem; font-weight: 700; color: #a78bfa; border-left: 3px solid #7c3aed; padding-left: 0.75rem; margin-bottom: 1rem; margin-top: 1.5rem; }
+  .item { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 10px; padding: 0.9rem 1.1rem; margin-bottom: 0.65rem; cursor: pointer; display: flex; gap: 0.75rem; align-items: flex-start; transition: border-color 0.2s, background 0.2s; }
+  .item:hover { border-color: #7c3aed; background: #1e1e35; }
+  .item.active { border-color: #a78bfa; background: #1e1e35; }
+  .item-num { background: #2d2d4e; color: #a78bfa; font-size: 0.78rem; font-weight: 700; border-radius: 6px; padding: 0.15rem 0.5rem; white-space: nowrap; min-width: 2rem; text-align: center; margin-top: 0.1rem; }
+  .item-text { font-size: 0.92rem; line-height: 1.65; color: #cbd5e1; }
+  .summary-box { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid #4a3d7a; border-radius: 12px; padding: 1.25rem 1.5rem; margin-top: 2rem; }
+  .summary-box h3 { color: #a78bfa; margin-bottom: 0.75rem; font-size: 1rem; }
+  .summary-box p { color: #cbd5e1; font-size: 0.92rem; line-height: 1.75; }
+  @media(max-width:600px){ header, main { padding-left: 1rem; padding-right: 1rem; } .player { margin: 1rem; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="../index.html">← 返回簡報列表</a>
+  <h1>📰 X 語音簡報 2026-06-02</h1>
+  <p>共精選 50 條摘要 · 最後更新：台北時間 2026-06-02 07:06</p>
+</header>
+
+<div class="player">
+  <div class="controls">
+    <button onclick="playAll()">▶ 全部播放</button>
+    <button class="secondary" onclick="togglePause()" id="pauseBtn">⏸ 暫停</button>
+    <button class="secondary" onclick="stopAll()">⏹ 停止</button>
+    <select onchange="changeSpeed(this.value)" id="speedSelect">
+      <option value="0.8">0.8×</option>
+      <option value="1.0" selected>1.0×</option>
+      <option value="1.2">1.2×</option>
+      <option value="1.5">1.5×</option>
+    </select>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="now-playing" id="nowPlaying">點選條目或按「全部播放」開始</div>
+</div>
+
+<main>
+  <div class="section">
+    <div class="section-title">🤖 AI 產業重大事件</div>
+    <div class="item" onclick="playItem(this,0)"><span class="item-num">1</span><span class="item-text">OpenAI 前沿模型（GPT-5.5、GPT-5.4、Codex）正式在 AWS Amazon Bedrock GA，Codex 可直接設定 model_provider = "amazon-bedrock" 使用本地 CLI／桌面／IDE 工作流搭配 AWS 安全機制。</span></div>
+    <div class="item" onclick="playItem(this,1)"><span class="item-num">2</span><span class="item-text">OpenAI 發布 Codex Python SDK：可在 Python 應用中嵌入 Codex，支援啟動 thread、串流進度、恢復 session、傳入圖片等完整 session 生命週期管理。</span></div>
+    <div class="item" onclick="playItem(this,2)"><span class="item-num">3</span><span class="item-text">佛羅里達州起訴 OpenAI 及 Sam Altman，成為首個以州政府名義起訴的案例，指控明知產品具成癮性與不安全性仍發布，特別針對兒童。</span></div>
+    <div class="item" onclick="playItem(this,3)"><span class="item-num">4</span><span class="item-text">Anthropic Mythos 為 Palo Alto Networks 發現 24 個以上關鍵安全漏洞，燃燒超過 100 萬美元 token（Anthropic 補貼），EU 呼籲用 Mythos「找出 Google、Meta、OpenAI 違反的所有法律以便罰款」。</span></div>
+    <div class="item" onclick="playItem(this,4)"><span class="item-num">5</span><span class="item-text">Claude 網站確認以 TanStack 重寫並加入資料預快取，速度大幅提升，用戶稱「終於可用了」。</span></div>
+    <div class="item" onclick="playItem(this,5)"><span class="item-num">6</span><span class="item-text">Codex 5 小時使用限制現在比 Claude 更嚴格，開發者大量抱怨。</span></div>
+    <div class="item" onclick="playItem(this,6)"><span class="item-num">7</span><span class="item-text">ChatGPT for Google Sheets 插件上線不到一個月下載超 18.5 萬次，但安全公司 PromptArmor 發現安全問題。</span></div>
+    <div class="item" onclick="playItem(this,7)"><span class="item-num">8</span><span class="item-text">有開發者建了 Apple Watch 與 CarPlay 語音 app 控制 Claude Code 與 Codex，實現「觸草寫程式」。</span></div>
+    <div class="item" onclick="playItem(this,8)"><span class="item-num">9</span><span class="item-text">Codex 設定語音通知腳本，分心時 agent 會主動「說話」提醒需要人類介入。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔧 模型與工具更新</div>
+    <div class="item" onclick="playItem(this,9)"><span class="item-num">10</span><span class="item-text">Qwen3.7-Plus 正式發布：橋接視覺感知與終端執行的多模態 agent 基礎模型，在 Cline 中免費試用。</span></div>
+    <div class="item" onclick="playItem(this,10)"><span class="item-num">11</span><span class="item-text">MiniMax M3 上線 OpenClaude（支援任何 LLM 的 coding CLI），原生支援 1M token 上下文。</span></div>
+    <div class="item" onclick="playItem(this,11)"><span class="item-num">12</span><span class="item-text">NVIDIA RTX Spark 持續引爆討論：被形容為「你的筆電剛變成紙鎮」，三十年 PC 架構被一顆晶片打破。</span></div>
+    <div class="item" onclick="playItem(this,12)"><span class="item-num">13</span><span class="item-text">Google 發布 AppFunctions（Android MCP）：讓 app 能力直接連接合格 agent，加速 Android AI 開發。</span></div>
+    <div class="item" onclick="playItem(this,13)"><span class="item-num">14</span><span class="item-text">ChatGPT 推出長文全螢幕編輯模式，可儲存至 Library 稍後繼續。</span></div>
+    <div class="item" onclick="playItem(this,14)"><span class="item-num">15</span><span class="item-text">Grok Build + Composer 2.5 被評為「與 Claude Opus 4.7 同級」。</span></div>
+    <div class="item" onclick="playItem(this,15)"><span class="item-num">16</span><span class="item-text">OpenAI 發出玩笑推文「Should we rename Codex to ChadGPT?」引發社群熱議。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💰 財經與市場</div>
+    <div class="item" onclick="playItem(this,16)"><span class="item-num">17</span><span class="item-text">Google（$GOOGL）募資 800 億美元資助 AI 基礎建設，Berkshire Hathaway 透過私募認購 100 億。</span></div>
+    <div class="item" onclick="playItem(this,17)"><span class="item-num">18</span><span class="item-text">Binance 正式上線美股交易。</span></div>
+    <div class="item" onclick="playItem(this,18)"><span class="item-num">19</span><span class="item-text">紐約酒吧用 Kalshi 預測市場對沖 Knicks 奪冠促銷（免費請客），預測市場進入實體商業避險場景。</span></div>
+    <div class="item" onclick="playItem(this,19)"><span class="item-num">20</span><span class="item-text">Strategy（$MSTR）出售 32 BTC（均價 $77,135），為 2022 年以來首次。</span></div>
+    <div class="item" onclick="playItem(this,20)"><span class="item-num">21</span><span class="item-text">Radiant Capital 因 5,000 萬美元駭客攻擊無法恢復，宣布逐步關閉。</span></div>
+    <div class="item" onclick="playItem(this,21)"><span class="item-num">22</span><span class="item-text">Robinhood 三天後移除 PDT 限制。</span></div>
+    <div class="item" onclick="playItem(this,22)"><span class="item-num">23</span><span class="item-text">EDGE token 4 小時內暴跌 46.8%，最低觸及 $0.32 後反彈。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🌐 地緣政治</div>
+    <div class="item" onclick="playItem(this,23)"><span class="item-num">24</span><span class="item-text">Trump 對 Netanyahu 說「你他媽瘋了…沒有我你早進監獄了…所有人都恨你」，要求以色列收斂。</span></div>
+    <div class="item" onclick="playItem(this,24)"><span class="item-num">25</span><span class="item-text">伊朗因以色列在黎巴嫩行動切斷與美國談判通道，Brent 原油跳升突破 $97。</span></div>
+    <div class="item" onclick="playItem(this,25)"><span class="item-num">26</span><span class="item-text">日本防衛大臣小泉在香格里拉對話會上被中國質問「日本道歉」，禮貌回應「中國不是在擴軍嗎？」獲得讚揚。</span></div>
+    <div class="item" onclick="playItem(this,26)"><span class="item-num">27</span><span class="item-text">Trump 政府計畫撤銷 18 億美元「武器化」受害者賠償基金。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏭 產業與創業</div>
+    <div class="item" onclick="playItem(this,27)"><span class="item-num">28</span><span class="item-text">法國成為 AI 投資磁鐵：Nebius 80 億歐元、Revolut 1 億歐元擴張、Vast 太空人任務。</span></div>
+    <div class="item" onclick="playItem(this,28)"><span class="item-num">29</span><span class="item-text">核能新創：5 個月從裸地建成首座 10MW 反應爐，總花費僅 7,000 萬美元，打破「核能不能快速、便宜建造」的迷思。</span></div>
+    <div class="item" onclick="playItem(this,29)"><span class="item-num">30</span><span class="item-text">Project Orion 啟動：Orion-100B 達資料中心 65% 效率，硬體成本僅為一小部分。</span></div>
+    <div class="item" onclick="playItem(this,30)"><span class="item-num">31</span><span class="item-text">Jensen Huang 表示未來每個家庭都會有 AI 超級電腦，PC 將變成你的 R2-D2 與 C-3PO。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔒 安全</div>
+    <div class="item" onclick="playItem(this,31)"><span class="item-num">32</span><span class="item-text">Instagram 大規模帳號盜竊持續：Meta AI 客服漏洞被利用，VPN 匹配地區後 AI 重設密碼即可盜號。</span></div>
+    <div class="item" onclick="playItem(this,32)"><span class="item-num">33</span><span class="item-text">佛羅里達訴訟可能改變 AI 公司被評判的標準——不再是 benchmark 與免責聲明，而是像投放「強力行為產品」的公司般受監管。</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏥 科學</div>
+    <div class="item" onclick="playItem(this,33)"><span class="item-num">34</span><span class="item-text">NASA 確認 5 月 30 日新英格蘭火球：直徑約 1.6 公尺、5.6 噸隕石進入大氣層。</span></div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日總結</h3>
+    <p>本時段最大新聞為 OpenAI 模型 GA 上 AWS Bedrock 並同步發布 Codex Python SDK，標誌 OpenAI 平台化戰略重大進展——從封閉 API 走向多雲嵌入式部署。佛羅里達州訴訟持續發酵，可能為 AI 產品監管樹立先例。財經面 Google 募資 800 億美元（含 Berkshire 100 億）用於 AI 基建，顯示科技巨頭資本支出仍在加速。地緣政治上 Trump 與 Netanyahu 通話內容曝光「所有人都恨你」為最具爆炸性消息。開發者工具方面 Codex 限制收緊引發大量不滿，但 Python SDK 與 session orchestration 等功能持續擴展 agent 能力邊界。</p>
+  </div>
+</main>
+
+<script>
+const items = document.querySelectorAll('.item');
+const texts = Array.from(items).map(el => el.querySelector('.item-text').textContent.trim());
+let currentIdx = -1;
+let isPaused = false;
+let utterance = null;
+let speed = 1.0;
+let voices = [];
+
+function loadVoices() {
+  voices = window.speechSynthesis.getVoices();
+}
+window.speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function getVoice() {
+  const zhTW = voices.find(v => v.lang === 'zh-TW');
+  if (zhTW) return zhTW;
+  const zh = voices.find(v => v.lang && v.lang.startsWith('zh'));
+  return zh || null;
+}
+
+function updateProgress() {
+  const pct = items.length > 0 ? ((currentIdx + 1) / items.length * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function setActive(idx) {
+  items.forEach(el => el.classList.remove('active'));
+  if (idx >= 0 && idx < items.length) {
+    items[idx].classList.add('active');
+    items[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  currentIdx = idx;
+  updateProgress();
+  document.getElementById('nowPlaying').textContent = idx >= 0 ? `▶ 播放第 ${idx+1} 條` : '點選條目或按「全部播放」開始';
+}
+
+function speak(text, idx, onEnd) {
+  window.speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-TW';
+  utterance.rate = speed;
+  const v = getVoice();
+  if (v) utterance.voice = v;
+  utterance.onend = onEnd || null;
+  setActive(idx);
+  window.speechSynthesis.speak(utterance);
+}
+
+function playIndex(i) {
+  if (i >= texts.length) { stopAll(); return; }
+  speak(texts[i], i, () => { if (!isPaused) playIndex(i + 1); });
+}
+
+function playAll() {
+  isPaused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  playIndex(0);
+}
+
+function togglePause() {
+  if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+    window.speechSynthesis.pause();
+    isPaused = true;
+    document.getElementById('pauseBtn').textContent = '▶ 繼續';
+  } else if (window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+    isPaused = false;
+    document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  }
+}
+
+function stopAll() {
+  window.speechSynthesis.cancel();
+  isPaused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  setActive(-1);
+  document.getElementById('nowPlaying').textContent = '已停止';
+  document.getElementById('progressBar').style.width = '0%';
+}
+
+function playItem(el, idx) {
+  isPaused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  speak(texts[idx], idx, () => { if (!isPaused) playIndex(idx + 1); });
+}
+
+function changeSpeed(val) {
+  speed = parseFloat(val);
+  if (window.speechSynthesis.speaking && currentIdx >= 0) {
+    const resumeIdx = currentIdx;
+    window.speechSynthesis.cancel();
+    setTimeout(() => playIndex(resumeIdx), 100);
+  }
+}
+</script>
+</body>
+</html>
