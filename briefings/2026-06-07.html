@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X 語音簡報 2026-06-07</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f13; color: #e5e5e5; font-family: 'Inter', -apple-system, sans-serif; min-height: 100vh; }
+  a { color: #a78bfa; text-decoration: none; }
+  a:hover { color: #c4b5fd; }
+
+  .header { padding: 24px 32px; border-bottom: 1px solid #1e1e2e; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .back-link { font-size: 14px; opacity: 0.7; }
+  .back-link:hover { opacity: 1; }
+  .header-info { margin-left: auto; text-align: right; }
+  .header-date { font-size: 22px; font-weight: 700; color: #a78bfa; }
+  .header-count { font-size: 13px; color: #a1a1a1; margin-top: 2px; }
+
+  .player { background: #16161f; border: 1px solid #2a2a3e; border-radius: 12px; margin: 24px 32px; padding: 20px 24px; }
+  .player-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn { background: #7c3aed; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .btn:hover { background: #6d28d9; }
+  .btn.secondary { background: #2a2a3e; color: #a78bfa; }
+  .btn.secondary:hover { background: #3a3a5e; }
+  .speed-select { background: #2a2a3e; color: #a78bfa; border: 1px solid #3a3a5e; border-radius: 8px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+  .progress-bar { width: 100%; height: 4px; background: #2a2a3e; border-radius: 2px; margin-top: 14px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); width: 0%; transition: width 0.3s; border-radius: 2px; }
+  .current-text { margin-top: 10px; font-size: 13px; color: #a1a1a1; min-height: 20px; font-style: italic; }
+
+  .content { padding: 0 32px 40px; }
+  .category { margin-top: 28px; }
+  .category-title { font-size: 16px; font-weight: 700; color: #a78bfa; padding: 8px 0; border-bottom: 1px solid #2a2a3e; margin-bottom: 12px; }
+  .item { background: #16161f; border: 1px solid #1e1e2e; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; display: flex; gap: 12px; align-items: flex-start; }
+  .item:hover { border-color: #7c3aed; background: #1a1a2e; }
+  .item.active { border-color: #a78bfa; background: #1e1a2e; box-shadow: 0 0 0 1px #7c3aed33; }
+  .item-num { font-size: 12px; color: #7c3aed; font-weight: 700; min-width: 28px; padding-top: 1px; }
+  .item-text { font-size: 14px; line-height: 1.6; color: #d4d4d8; }
+
+  .summary-box { background: #16161f; border: 1px solid #2a2a3e; border-left: 3px solid #7c3aed; border-radius: 8px; padding: 20px 24px; margin-top: 28px; }
+  .summary-box h3 { font-size: 15px; font-weight: 700; color: #a78bfa; margin-bottom: 10px; }
+  .summary-box p { font-size: 14px; line-height: 1.8; color: #a1a1a1; }
+
+  @media (max-width: 600px) {
+    .header, .player, .content { padding-left: 16px; padding-right: 16px; }
+    .player { margin: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="../index.html" class="back-link">← 返回簡報列表</a>
+  <div class="header-info">
+    <div class="header-date">📰 2026-06-07</div>
+    <div class="header-count">共 53 條摘要 · 取自 310 則推文</div>
+  </div>
+</div>
+
+<div class="player">
+  <div class="player-controls">
+    <button class="btn" onclick="playAll()">▶ 全部播放</button>
+    <button class="btn secondary" onclick="togglePause()" id="pauseBtn">⏸ 暫停</button>
+    <button class="btn secondary" onclick="stopAll()">⏹ 停止</button>
+    <select class="speed-select" id="speedSelect" onchange="changeSpeed()">
+      <option value="0.8">0.8×</option>
+      <option value="1.0" selected>1.0×</option>
+      <option value="1.2">1.2×</option>
+      <option value="1.5">1.5×</option>
+    </select>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="current-text" id="currentText">點擊條目或按「全部播放」開始語音播報</div>
+</div>
+
+<div class="content">
+
+  <div class="category">
+    <div class="category-title">🤖 AI 與大型語言模型</div>
+    <div class="item" onclick="playItem(this, 0)"><span class="item-num">01</span><span class="item-text">GPT-5.5 vs Opus 4.8 設計效果對比：Opus 4.8 在 UI 設計審美上明顯勝出，使用 baoyu-design Skill 測試 Reader Mac App，差距肉眼可見。</span></div>
+    <div class="item" onclick="playItem(this, 1)"><span class="item-num">02</span><span class="item-text">GPT-5.6 image-to-SVG（Xbox 手把）vs Mythos text-to-prompt（PS5 手把）——新時代的模型能力以視覺還原度競賽。</span></div>
+    <div class="item" onclick="playItem(this, 2)"><span class="item-num">03</span><span class="item-text">世界首個音頻原生 AI 模型 Velma 以 API 形式開放：可理解情感、語調、意圖、節奏與聲音壓力，已分析 5.5 億小時對話。</span></div>
+    <div class="item" onclick="playItem(this, 3)"><span class="item-num">04</span><span class="item-text">有用戶願為 5 倍速度支付 10 倍 token 費用，顯示市場對推理延遲的零容忍態度。</span></div>
+    <div class="item" onclick="playItem(this, 4)"><span class="item-num">05</span><span class="item-text">Codex 用量技巧：快觸及 5 小時週限額時讓 Codex 拆分任務為多個中等任務，再開 12-36 個平行 Codex 執行。</span></div>
+    <div class="item" onclick="playItem(this, 5)"><span class="item-num">06</span><span class="item-text">Amazon Bedrock AgentCore Managed Harness 的 Skills 現支援從 S3 讀取。</span></div>
+    <div class="item" onclick="playItem(this, 6)"><span class="item-num">07</span><span class="item-text">Pitch Agent 上線：AI 內建簡報工作區，從 prompt 生成完整簡報（使用團隊品牌模板）。</span></div>
+    <div class="item" onclick="playItem(this, 7)"><span class="item-num">08</span><span class="item-text">Argus-Retriever 發布：首個查詢自適應的 late-interaction visual document retriever，ViDoRe V1+V2 NDCG@5 達 86.0（開源 SOTA）。</span></div>
+    <div class="item" onclick="playItem(this, 8)"><span class="item-num">09</span><span class="item-text">Kikuyu TranslateGemma-4B：比 12B 版更快更小且翻譯品質更佳。</span></div>
+    <div class="item" onclick="playItem(this, 9)"><span class="item-num">10</span><span class="item-text">Frontier Math Tier 4 問題被解決僅兩個月後，計算代數幾何領域就發生劇變——AI 對純數學的衝擊速度超出預期。</span></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">💰 財經與經濟</div>
+    <div class="item" onclick="playItem(this, 10)"><span class="item-num">11</span><span class="item-text">美國財政部下週計畫買入 AI 股，政府直接下場炒股引發討論。</span></div>
+    <div class="item" onclick="playItem(this, 11)"><span class="item-num">12</span><span class="item-text">META 被認為相比 Google 嚴重高估，有投資者考慮做空。</span></div>
+    <div class="item" onclick="playItem(this, 12)"><span class="item-num">13</span><span class="item-text">摩納哥週末「億萬富翁街」資金充沛但華爾街無反彈——市場資金被抽走。</span></div>
+    <div class="item" onclick="playItem(this, 13)"><span class="item-num">14</span><span class="item-text">日本年收入 200-500 萬日圓的有子女家庭從 2012 到 2022 年大規模消失，中產萎縮。</span></div>
+    <div class="item" onclick="playItem(this, 14)"><span class="item-num">15</span><span class="item-text">GTA6 Trailer 3 即將發布？有人監測 Rockstar North 辦公室氧氣含量下降（暗示人員大量加班）。</span></div>
+    <div class="item" onclick="playItem(this, 15)"><span class="item-num">16</span><span class="item-text">Polymarket 世界盃冠軍市場交易量超 20 億美元。</span></div>
+    <div class="item" onclick="playItem(this, 16)"><span class="item-num">17</span><span class="item-text">SpaceX IPO 在即，Musk 世界首富地位將進一步鞏固。</span></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">🌐 地緣政治與國際</div>
+    <div class="item" onclick="playItem(this, 17)"><span class="item-num">18</span><span class="item-text">FIFA 世界盃主辦國美國再遭批：伊拉克球星被審訊 7 小時、多國官員簽證被拒。</span></div>
+    <div class="item" onclick="playItem(this, 18)"><span class="item-num">19</span><span class="item-text">南韓選舉舞弊證據持續浮現：票箱倒出大量無摺痕全新選票與整疊對摺未分開的選票，作票手法粗糙程度暗示操作者缺乏投票經驗。</span></div>
+    <div class="item" onclick="playItem(this, 19)"><span class="item-num">20</span><span class="item-text">日菲 EEZ 談判地圖將邊界劃至台灣島，卻未邀台灣上桌，民進黨政府第一天竟給予肯定。</span></div>
+    <div class="item" onclick="playItem(this, 20)"><span class="item-num">21</span><span class="item-text">美國頂尖大學就業困境：電腦科學專業畢業生面臨 8,000 封拒信，求職市場驟變。</span></div>
+    <div class="item" onclick="playItem(this, 21)"><span class="item-num">22</span><span class="item-text">好萊塢被批對奇幻題材「病態地無法認真對待」——必須嘲諷、消解、填入冷嘲。</span></div>
+    <div class="item" onclick="playItem(this, 22)"><span class="item-num">23</span><span class="item-text">印度 L&amp;T 在 Hazira 展示自主研發國防創新，總理到訪。</span></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">🏭 產業與科技</div>
+    <div class="item" onclick="playItem(this, 23)"><span class="item-num">24</span><span class="item-text">Stellar Blade BLOODRAIN DLC 預告中的「預告中的揭露」引爆討論。</span></div>
+    <div class="item" onclick="playItem(this, 24)"><span class="item-num">25</span><span class="item-text">Xbox 新任 CEO Asha Sharma 將在明日 Xbox Showcase 發表大量新聞。</span></div>
+    <div class="item" onclick="playItem(this, 25)"><span class="item-num">26</span><span class="item-text">Sea of Remnants 在 Summer Game Fest 2026 釋出新 PV。</span></div>
+    <div class="item" onclick="playItem(this, 26)"><span class="item-num">27</span><span class="item-text">FFVII Original vs FFVII Revelation 首支對比影片發布。</span></div>
+    <div class="item" onclick="playItem(this, 27)"><span class="item-num">28</span><span class="item-text">Tetris 今日發行 42 週年。</span></div>
+    <div class="item" onclick="playItem(this, 28)"><span class="item-num">29</span><span class="item-text">衛星部署確認。</span></div>
+    <div class="item" onclick="playItem(this, 29)"><span class="item-num">30</span><span class="item-text">wslc 現在可在所有支援 WSL 2 的平台運行。</span></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">🛠️ 開發工具與工程</div>
+    <div class="item" onclick="playItem(this, 30)"><span class="item-num">31</span><span class="item-text">UI 設計速查藍圖：Inter 字體 letter-spacing -0.15px、#1C1C1C 深色背景、#E5E5E5 白字 + #A1A1A1 淡字、Huge Icons。</span></div>
+    <div class="item" onclick="playItem(this, 31)"><span class="item-num">32</span><span class="item-text">Redis 交易的極簡哲學：不用複雜鎖或 MVCC，靠單線程架構保證 isolation 與 atomicity。</span></div>
+    <div class="item" onclick="playItem(this, 32)"><span class="item-num">33</span><span class="item-text">Weight decay 穩定訓練的常見信念被論文推翻：EoS 依然發生，實際效果不如預期。</span></div>
+    <div class="item" onclick="playItem(this, 33)"><span class="item-num">34</span><span class="item-text">CSS 動畫心型按讚效果源碼開源。</span></div>
+    <div class="item" onclick="playItem(this, 34)"><span class="item-num">35</span><span class="item-text">Google 正在為新 Search Profiles 開發 Insights 功能：含頂部搜尋查詢、SERP 點擊數、曝光量等指標。</span></div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">📰 社會與生活</div>
+    <div class="item" onclick="playItem(this, 35)"><span class="item-num">36</span><span class="item-text">睡眠中大腦清洗機制（Glymphatic System）沖走代謝廢物的科普引發關注。</span></div>
+    <div class="item" onclick="playItem(this, 36)"><span class="item-num">37</span><span class="item-text">精神科醫師分享「腦疲勞時身體最渴望什麼」：停不下來吃鹹食、瘋狂網購、沒來由想哭——已達極限警訊。</span></div>
+    <div class="item" onclick="playItem(this, 37)"><span class="item-num">38</span><span class="item-text">孟買 ₹46,000 一房一廳月租讓人感嘆：「孟買最大的成就是讓人相信不便利是正常的。」</span></div>
+    <div class="item" onclick="playItem(this, 38)"><span class="item-num">39</span><span class="item-text">早期接觸花生過敏原的研究被推廣至所有過敏原：「對，就是直接餵嬰兒吃貝類。」</span></div>
+    <div class="item" onclick="playItem(this, 39)"><span class="item-num">40</span><span class="item-text">32 歲搬回媽媽家不羞恥——「$1800 房租荒謬，媽媽不想老了才相處」持續引發世代共鳴。</span></div>
+    <div class="item" onclick="playItem(this, 40)"><span class="item-num">41</span><span class="item-text">ANA 超訂問題引發日本旅客焦慮，但官方確認處理流程正常。</span></div>
+    <div class="item" onclick="playItem(this, 41)"><span class="item-num">42</span><span class="item-text">名古屋 vs 京都：同為排外城市，但名古屋對認真融入的人友善，京都則用微妙姿態築牆。</span></div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日總結</h3>
+    <p>本日動態以 AI 視覺能力對決為一大看點——GPT-5.6 SVG 還原 vs Mythos prompt 生成、Opus 4.8 設計審美大勝 GPT-5.5，模型競爭已從文字進入視覺創作領域。財經面美國政府計畫直接買入 AI 股引發「政府炒股」爭議、SpaceX IPO 臨近、Polymarket 世界盃市場交易量破 20 億美元。地緣政治上世界盃簽證爭議持續、南韓選舉舞弊物證越來越具體、日菲 EEZ 談判忽視台灣引發不滿。遊戲產業密集發布：Xbox Showcase 明日登場、FFVII Revelation 對比影片、Stellar Blade DLC、Summer Game Fest 新作。社會面睡眠科學、精神健康警訊、過敏原新知與居住成本壓力持續引發全球中產共鳴。</p>
+  </div>
+
+</div>
+
+<script>
+const items = Array.from(document.querySelectorAll('.item'));
+const texts = items.map(el => el.querySelector('.item-text').textContent.trim());
+let currentIndex = -1;
+let isPaused = false;
+let utterance = null;
+let speed = 1.0;
+
+function getVoice() {
+  const voices = speechSynthesis.getVoices();
+  return voices.find(v => v.lang === 'zh-TW') ||
+         voices.find(v => v.lang.startsWith('zh')) ||
+         null;
+}
+
+function updateProgress() {
+  const total = texts.length;
+  const pct = total > 0 ? ((currentIndex + 1) / total) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function setActive(idx) {
+  items.forEach(el => el.classList.remove('active'));
+  if (idx >= 0 && idx < items.length) {
+    items[idx].classList.add('active');
+    items[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  document.getElementById('currentText').textContent = idx >= 0 ? texts[idx] : '點擊條目或按「全部播放」開始語音播報';
+  updateProgress();
+}
+
+function speak(text, index, onEnd) {
+  speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'zh-TW';
+  utterance.rate = speed;
+  const voice = getVoice();
+  if (voice) utterance.voice = voice;
+  utterance.onend = onEnd;
+  utterance.onerror = onEnd;
+  currentIndex = index;
+  setActive(index);
+  speechSynthesis.speak(utterance);
+}
+
+function playIndex(i) {
+  if (i >= texts.length) {
+    stopAll();
+    return;
+  }
+  speak(texts[i], i, () => { if (!isPaused) playIndex(i + 1); });
+}
+
+function playAll() {
+  isPaused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  playIndex(0);
+}
+
+function togglePause() {
+  if (speechSynthesis.speaking && !speechSynthesis.paused) {
+    speechSynthesis.pause();
+    isPaused = true;
+    document.getElementById('pauseBtn').textContent = '▶ 繼續';
+  } else if (speechSynthesis.paused) {
+    speechSynthesis.resume();
+    isPaused = false;
+    document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  }
+}
+
+function stopAll() {
+  speechSynthesis.cancel();
+  isPaused = false;
+  currentIndex = -1;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  setActive(-1);
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('currentText').textContent = '點擊條目或按「全部播放」開始語音播報';
+}
+
+function playItem(el, idx) {
+  isPaused = false;
+  document.getElementById('pauseBtn').textContent = '⏸ 暫停';
+  speak(texts[idx], idx, () => { if (!isPaused) playIndex(idx + 1); });
+}
+
+function changeSpeed() {
+  speed = parseFloat(document.getElementById('speedSelect').value);
+  if (utterance) utterance.rate = speed;
+}
+
+// Pre-load voices
+window.addEventListener('load', () => {
+  speechSynthesis.getVoices();
+  if (typeof speechSynthesis.onvoiceschanged !== 'undefined') {
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+  }
+});
+</script>
+</body>
+</html>
